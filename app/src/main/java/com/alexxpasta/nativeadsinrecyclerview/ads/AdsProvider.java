@@ -35,6 +35,7 @@ public class AdsProvider {
     }
 
     public void initAds(Context context, final OnAdsLoadedListener onAdsLoadedListener) {
+        lastAdPosition = Constant.POSITION_NOT_EXIST;
         fanAdsProvider = FanAdsProvider.getInstance();
         fanAdsProvider.initAds(context, new OnAdsLoadedListener() {
             @Override
