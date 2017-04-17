@@ -4,8 +4,8 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    card_view:contentPadding="16dp"
+    android:layout_marginBottom="@dimen/component_gap"
+    card_view:contentPadding="@dimen/card_padding"
     card_view:cardCornerRadius="@dimen/cardview_default_radius"
     card_view:cardElevation="@dimen/cardview_default_elevation">
 
@@ -17,35 +17,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/component_gap_half">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:id="@+id/post_avatar"
+                android:layout_width="@dimen/list_item_icon_size"
+                android:layout_height="@dimen/list_item_icon_size"
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
-                android:id="@+id/tv_name"
+                android:id="@+id/post_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:textSize="25dp"
+                android:layout_marginStart="@dimen/component_gap"
+                android:textSize="@dimen/list_item_title_text_size"
                 tool:text="Name" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_message"
+            android:id="@+id/post_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginBottom="@dimen/component_gap"
             tool:text="Helloooooooo!!!" />
 
         <ImageView
+            android:id="@+id/post_main_image"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:src="@drawable/pic0" />
+            android:layout_height="@dimen/list_item_main_image_height"
+            android:src="@drawable/pic0"
+            android:scaleType="centerCrop"/>
 
     </LinearLayout>
 

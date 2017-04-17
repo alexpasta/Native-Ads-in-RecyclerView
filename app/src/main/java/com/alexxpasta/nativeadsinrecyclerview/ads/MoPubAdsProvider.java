@@ -53,11 +53,12 @@ public class MoPubAdsProvider {
         });
 
         ViewBinder viewBinder = new ViewBinder.Builder(R.layout.list_item_mopub)
-            .mainImageId(R.id.native_main_image)
-            .iconImageId(R.id.native_icon_image)
-            .titleId(R.id.native_title)
-            .textId(R.id.native_text)
-            .callToActionId(R.id.native_cta)
+            .mainImageId(R.id.native_ad_main_image)
+            .iconImageId(R.id.native_ad_icon)
+            .titleId(R.id.native_ad_title)
+            .textId(R.id.native_ad_social_context)
+            .callToActionId(R.id.native_ad_cta)
+            .privacyInformationIconImageId(R.id.native_ad_privacy_information_icon_image)
             .build();
 
         moPubNative.registerAdRenderer(new MoPubStaticNativeAdRenderer(viewBinder));

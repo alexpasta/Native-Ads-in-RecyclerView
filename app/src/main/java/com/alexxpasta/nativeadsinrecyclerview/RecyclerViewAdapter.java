@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.ads.MediaView;
+import com.facebook.ads.NativeAd;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,48 +32,54 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public static class PostHolder extends RecyclerView.ViewHolder {
-        private TextView tvName;
-        private TextView tvMessage;
+        private TextView name;
+        private TextView message;
+        private ImageView mainImage;
 
         public PostHolder(View view) {
             super(view);
-            tvName = (TextView) view.findViewById(R.id.tv_name);
-            tvMessage = (TextView) view.findViewById(R.id.tv_message);
+            name = (TextView) view.findViewById(R.id.post_name);
+            message = (TextView) view.findViewById(R.id.post_message);
+            mainImage = (ImageView) view.findViewById(R.id.post_main_image);
         }
 
         public void bindView(PostItem item) {
-            tvName.setText(item.name);
-            tvMessage.setText(item.message);
+            name.setText(item.name);
+            message.setText(item.message);
+            mainImage.setImageResource(item.imageResId);
         }
     }
 
     public static class FanAdHolder extends RecyclerView.ViewHolder {
         private View adContainer;
+        private ImageView adIcon;
+        private TextView adTitle;
         private MediaView adMedia;
         private TextView adSocialContext;
         private Button adCallToAction;
 
         public FanAdHolder(View view) {
             super(view);
-            adContainer = view.findViewById(R.id.ad_container);
+            adContainer = view.findViewById(R.id.native_ad_container);
+            adIcon = (ImageView) view.findViewById(R.id.native_ad_icon);
+            adTitle = (TextView) view.findViewById(R.id.native_ad_title);
             adMedia = (MediaView) view.findViewById(R.id.native_ad_media);
             adSocialContext = (TextView) view.findViewById(R.id.native_ad_social_context);
-            adCallToAction = (Button)view.findViewById(R.id.native_ad_call_to_action);
+            adCallToAction = (Button)view.findViewById(R.id.native_ad_cta);
         }
 
         public void bindView(com.facebook.ads.NativeAd ad) {
-            if (ad == null) {
-                adContainer.setVisibility(View.GONE);
-            } else {
-                adSocialContext.setText(ad.getAdSocialContext());
-                adCallToAction.setText(ad.getAdCallToAction());
-                adMedia.setNativeAd(ad);
+            adTitle.setText(ad.getAdTitle());
+            adMedia.setNativeAd(ad);
+            adSocialContext.setText(ad.getAdSocialContext());
+            adCallToAction.setText(ad.getAdCallToAction());
+            NativeAd.Image icon = ad.getAdIcon();
+            NativeAd.downloadAndDisplayImage(icon, adIcon);
 
-                List<View> clickableViews = new ArrayList<>();
-                clickableViews.add(adMedia);
-                clickableViews.add(adCallToAction);
-                ad.registerViewForInteraction(adContainer, clickableViews);
-            }
+            List<View> clickableViews = new ArrayList<>();
+            clickableViews.add(adMedia);
+            clickableViews.add(adCallToAction);
+            ad.registerViewForInteraction(adContainer, clickableViews);
         }
     }
 
@@ -79,17 +87,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private View adContainer;
         public MoPubAdHolder(View view) {
             super(view);
-            adContainer = view.findViewById(R.id.native_outer_view);
+            adContainer = view.findViewById(R.id.native_ad_container);
         }
 
         public void bindView(com.mopub.nativeads.NativeAd ad) {
-            if (ad == null) {
-                adContainer.setVisibility(View.GONE);
-            } else {
-                ad.clear(adContainer);
-                ad.renderAdView(adContainer);
-                ad.prepare(adContainer);
-            }
+            ad.clear(adContainer);
+            ad.renderAdView(adContainer);
+            ad.prepare(adContainer);
         }
     }
 

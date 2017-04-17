@@ -7,9 +7,11 @@ package com.alexxpasta.nativeadsinrecyclerview;
 public class PostItem {
     public String name;
     public String message;
+    public int imageResId;
 
-    public PostItem(String name, String message) {
+    public PostItem(String name, String message, int imageResId) {
         this.name = name;
         this.message = message;
+        this.imageResId = imageResId;
     }
 }

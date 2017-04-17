@@ -8,3 +8,7 @@
 3. Replace the values in LocalConfig.java with your FAN placement ID and MoPub ad unit ID.
 4. (Optional) Adjust the configs in Config.java.
 5. Run app.
+
+Images Source:
+https://pixabay.com/
+http://tw.weibo.com/linariel

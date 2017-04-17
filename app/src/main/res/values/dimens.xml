@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_padding">16dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
+    <dimen name="component_gap">8dp</dimen>
+    <dimen name="component_gap_half">4dp</dimen>
+    <dimen name="btn_padding">8dp</dimen>
+    <dimen name="btn_text_size">16sp</dimen>
+
+    <!-- Home Page List Item -->
+    <dimen name="list_item_icon_size">40dp</dimen>
+    <dimen name="list_item_title_text_size">18sp</dimen>
+    <dimen name="list_item_main_image_height">220dp</dimen>
+</resources>
