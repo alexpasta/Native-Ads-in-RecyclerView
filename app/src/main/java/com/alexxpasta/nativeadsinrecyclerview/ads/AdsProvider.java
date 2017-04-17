@@ -53,7 +53,10 @@ public class AdsProvider {
             @Override
             public void onAdsLoaded() {
                 isMoPubLoaded = true;
-                onAdsLoadedListener.onAdsLoaded();
+
+                if (isFanLoaded) {
+                    onAdsLoadedListener.onAdsLoaded();
+                }
             }
 
             @Override
