@@ -34,18 +34,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static class PostHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private TextView message;
+        private ImageView avatar;
         private ImageView mainImage;
 
         public PostHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.post_name);
             message = (TextView) view.findViewById(R.id.post_message);
+            avatar = (ImageView) view.findViewById(R.id.post_avatar);
             mainImage = (ImageView) view.findViewById(R.id.post_main_image);
         }
 
         public void bindView(PostItem item) {
             name.setText(item.name);
             message.setText(item.message);
+            avatar.setImageResource(item.avatarResId);
             mainImage.setImageResource(item.imageResId);
         }
     }
