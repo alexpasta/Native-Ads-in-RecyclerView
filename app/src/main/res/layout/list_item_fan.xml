@@ -51,7 +51,7 @@
             android:layout_height="@dimen/list_item_main_image_height"
             android:gravity="center"
             android:layout_marginBottom="@dimen/component_gap"
-            tool:background="@drawable/pic0"/>
+            tool:background="@drawable/pic2"/>
 
         <Button
             android:id="@+id/native_ad_cta"
@@ -60,7 +60,7 @@
             android:padding="@dimen/btn_padding"
             android:layout_gravity="end"
             android:background="@android:color/holo_blue_light"
-            android:textSize="@dimen/btn_text_size"
+            android:textColor="@color/color_primary_btn_txt"
             tool:text="Install Now"/>
     </LinearLayout>
 
