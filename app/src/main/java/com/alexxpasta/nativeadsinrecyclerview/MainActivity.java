@@ -53,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initAds() {
-        adsProvider = AdsProvider.getInstance();
-        adsProvider.initAds(this, new OnAdsLoadedListener() {
+        adsProvider = new AdsProvider(this, new OnAdsLoadedListener() {
             @Override
             public void onAdsLoaded() {
                 Log.d(TAG, "[onAdsLoaded]");

@@ -15,28 +15,23 @@ import java.util.List;
 
 public class AdsProvider {
     private static final String TAG = AdsProvider.class.getSimpleName();
-    private static final AdsProvider instance = new AdsProvider();
+
     private FanAdsProvider fanAdsProvider;
     private MoPubAdsProvider moPubAdsProvider;
     private boolean isFanLoaded;
     private boolean isMoPubLoaded;
     private int lastAdPosition = Constant.POSITION_NOT_EXIST;
 
-    public static AdsProvider getInstance() {
-        return instance;
-    }
-
-    private AdsProvider() {
+    public AdsProvider(Context context, final OnAdsLoadedListener onAdsLoadedListener) {
+        initAds(context, onAdsLoadedListener);
     }
 
     public boolean isLoaded() {
         return isFanLoaded && isMoPubLoaded;
     }
 
-    public void initAds(Context context, final OnAdsLoadedListener onAdsLoadedListener) {
-        lastAdPosition = Constant.POSITION_NOT_EXIST;
-        fanAdsProvider = FanAdsProvider.getInstance();
-        fanAdsProvider.initAds(context, new OnAdsLoadedListener() {
+    private void initAds(Context context, final OnAdsLoadedListener onAdsLoadedListener) {
+        fanAdsProvider = new FanAdsProvider(this, context, new OnAdsLoadedListener() {
             @Override
             public void onAdsLoaded() {
                 isFanLoaded = true;
@@ -48,8 +43,8 @@ public class AdsProvider {
                 isFanLoaded = true;
             }
         });
-        moPubAdsProvider = MoPubAdsProvider.getInstance();
-        moPubAdsProvider.initAds(context, new OnAdsLoadedListener() {
+
+        moPubAdsProvider = new MoPubAdsProvider(this, context, new OnAdsLoadedListener() {
             @Override
             public void onAdsLoaded() {
                 isMoPubLoaded = true;
@@ -66,17 +61,7 @@ public class AdsProvider {
         });
     }
 
-    public boolean shouldStopLoadAd() {
-        if (lastAdPosition != Constant.POSITION_NOT_EXIST &&
-                lastAdPosition + Config.MIN_DISTANCE_BETWEEN_ADS > Config.MAX_AD_POSITION) {
-            Log.d(TAG, "[shouldStopLoadAd] Ads are enough, stop loading!");
-            return true;
-        }
-
-        return false;
-    }
-
-    public Object pollAd() {
+    private Object pollAd() {
         Object ad = fanAdsProvider.pollAd();
         if (ad == null) {
             Log.d(TAG, "[pollAd] FAN pool is empty. Poll ad from MoPub instead.");
@@ -125,5 +110,15 @@ public class AdsProvider {
         }
 
         return positionsForInsert;
+    }
+
+    public boolean shouldStopLoadAd() {
+        if (lastAdPosition != Constant.POSITION_NOT_EXIST &&
+                lastAdPosition + Config.MIN_DISTANCE_BETWEEN_ADS > Config.MAX_AD_POSITION) {
+            Log.d(TAG, "[shouldStopLoadAd] Ads are enough, stop loading!");
+            return true;
+        }
+
+        return false;
     }
 }

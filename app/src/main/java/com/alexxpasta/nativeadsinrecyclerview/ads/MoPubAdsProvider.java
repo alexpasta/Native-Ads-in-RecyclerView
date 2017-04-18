@@ -20,21 +20,20 @@ import java.util.List;
  * Created by alexxpasta on 2017/4/16.
  */
 
-public class MoPubAdsProvider {
+class MoPubAdsProvider {
     private static final String TAG = MoPubAdsProvider.class.getSimpleName();
-    private static final MoPubAdsProvider instance = new MoPubAdsProvider();
+
+    private AdsProvider commonAdsProvider;
     private MoPubNative moPubNative;
     private List<NativeAd> adsPool = new LinkedList<>();
     private boolean isLoading;
 
-    public static MoPubAdsProvider getInstance() {
-        return instance;
+    MoPubAdsProvider(AdsProvider adsProvider, Context context, final OnAdsLoadedListener onAdsLoadedListener) {
+        commonAdsProvider = adsProvider;
+        initAds(context, onAdsLoadedListener);
     }
 
-    private MoPubAdsProvider() {
-    }
-
-    public void initAds(Context context, final OnAdsLoadedListener onAdsLoadedListener) {
+    private void initAds(Context context, final OnAdsLoadedListener onAdsLoadedListener) {
         moPubNative = new MoPubNative(context, LocalConfig.MOPUB_AD_UNIT_ID, new MoPubNative.MoPubNativeNetworkListener() {
             @Override
             public void onNativeLoad(NativeAd nativeAd) {
@@ -65,7 +64,7 @@ public class MoPubAdsProvider {
         loadAds();
     }
 
-    public NativeAd pollAd() {
+    NativeAd pollAd() {
         if (adsPool.isEmpty()) {
             loadAds();
             return null;
@@ -79,7 +78,7 @@ public class MoPubAdsProvider {
     }
 
     private void loadAds() {
-        if (!isLoading && !AdsProvider.getInstance().shouldStopLoadAd()) {
+        if (!isLoading && !commonAdsProvider.shouldStopLoadAd()) {
             Log.d(TAG, "[loadAds] start load MoPub ad ...");
             isLoading = true;
 

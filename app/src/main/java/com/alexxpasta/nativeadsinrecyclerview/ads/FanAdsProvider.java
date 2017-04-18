@@ -16,22 +16,20 @@ import java.util.List;
  * Created by alexxpasta on 2017/4/15.
  */
 
-public class FanAdsProvider {
+class FanAdsProvider {
     private static final String TAG = FanAdsProvider.class.getSimpleName();
-    private static final FanAdsProvider instance = new FanAdsProvider();
 
+    private AdsProvider commonAdsProvider;
     private NativeAdsManager adsManager;
     private List<NativeAd> adsPool = new LinkedList<>();
     private boolean isLoading;
 
-    public static FanAdsProvider getInstance() {
-        return instance;
+    FanAdsProvider(AdsProvider adsProvider, Context context, final OnAdsLoadedListener onAdsLoadedListener) {
+        commonAdsProvider = adsProvider;
+        initAds(context, onAdsLoadedListener);
     }
 
-    private FanAdsProvider() {
-    }
-
-    public void initAds(Context context, final OnAdsLoadedListener onAdsLoadedListener) {
+    private void initAds(Context context, final OnAdsLoadedListener onAdsLoadedListener) {
         adsManager = new NativeAdsManager(context, LocalConfig.FAN_PLACEMENT_ID_HOME_SCREEN, Config.FAN_POOL_SIZE);
         adsManager.setListener(new NativeAdsManager.Listener() {
             @Override
@@ -61,7 +59,7 @@ public class FanAdsProvider {
         loadAds();
     }
 
-    public NativeAd pollAd() {
+    NativeAd pollAd() {
         if (adsPool.isEmpty()) {
             loadAds();
             return null;
@@ -75,7 +73,7 @@ public class FanAdsProvider {
     }
 
     private void loadAds() {
-        if (!isLoading && !AdsProvider.getInstance().shouldStopLoadAd()) {
+        if (!isLoading && !commonAdsProvider.shouldStopLoadAd()) {
             Log.d(TAG, "[loadAds] start load FAN ads ...");
             isLoading = true;
             adsManager.loadAds(NativeAd.MediaCacheFlag.ALL);
