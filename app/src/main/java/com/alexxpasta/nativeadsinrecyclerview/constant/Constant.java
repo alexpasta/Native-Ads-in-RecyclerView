@@ -6,5 +6,4 @@ package com.alexxpasta.nativeadsinrecyclerview.constant;
 
 public class Constant {
     public static final int POSITION_NOT_EXIST = -1;
-    public static final int POSITION_OVER_MAX = -2;
 }

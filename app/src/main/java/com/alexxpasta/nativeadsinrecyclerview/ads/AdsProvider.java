@@ -5,9 +5,8 @@ import android.util.Log;
 
 import com.alexxpasta.nativeadsinrecyclerview.constant.Config;
 import com.alexxpasta.nativeadsinrecyclerview.constant.Constant;
-import com.facebook.ads.NativeAd;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -87,30 +86,27 @@ public class AdsProvider {
     }
 
     public List<Integer> insertAds(List<Object> target, int lastVisibleItemPosition) {
-        int numAdsRequired = getNumAdsRequired(target.size(), lastAdPosition, lastVisibleItemPosition);
-        if (numAdsRequired <= 0) {
-            return null;
-        }
+        List<Integer> insertPositions = getInsertPositions(target.size(), lastAdPosition, lastVisibleItemPosition);
+        List<Integer> successInsertedPositions = new LinkedList<>();
 
-        List<Integer> insertedPositions = new ArrayList<>(numAdsRequired);
-        while (numAdsRequired > 0) {
-            int index = getInsertPosition(target.size(), lastAdPosition, lastVisibleItemPosition);
+        for (int position : insertPositions) {
             Object ad = pollAd();
             if (ad == null) {
                 Log.d(TAG, "[insertAds] All ads are consumed");
                 break;
             }
-            target.add(index, ad);
-            lastAdPosition = index;
-            insertedPositions.add(index);
-            numAdsRequired--;
-            Log.d(TAG, "[insertAds] Insert ad at position: " + index);
+            target.add(position, ad);
+            lastAdPosition = position;
+            successInsertedPositions.add(position);
+            Log.d(TAG, "[insertAds] Insert ad at position: " + position);
         }
 
-        return insertedPositions;
+        return successInsertedPositions;
     }
 
-    public static int getInsertPosition(int targetSize, int lastAdPosition, int lastVisibleItemPosition) {
+    private static List<Integer> getInsertPositions(int targetSize, int lastAdPosition, int lastVisibleItemPosition) {
+        List<Integer> positionsForInsert = new LinkedList<>();
+
         int position;
         if (lastAdPosition == Constant.POSITION_NOT_EXIST) {
             position = Math.max(Config.MIN_AD_POSITION, lastAdPosition + 1);
@@ -120,21 +116,14 @@ public class AdsProvider {
 
         int maxPosition = Math.min(targetSize, Config.MAX_AD_POSITION);
 
-        if (position > maxPosition) {
-            return Constant.POSITION_OVER_MAX;
+        while (position <= maxPosition) {
+            positionsForInsert.add(position);
+            position += Config.MIN_DISTANCE_BETWEEN_ADS;
+
+            targetSize++;
+            maxPosition = Math.min(targetSize, Config.MAX_AD_POSITION);
         }
 
-        return position;
-    }
-
-    public static int getNumAdsRequired(int targetSize, int lastAdPosition, int lastVisibleItemPosition) {
-        int firstPosition = getInsertPosition(targetSize, lastAdPosition, lastVisibleItemPosition);
-        if (firstPosition == Constant.POSITION_OVER_MAX) {
-            return 0;
-
-        }
-
-        int maxPosition = Math.min(targetSize, Config.MAX_AD_POSITION); // FIXME: targetSize will change during inserting
-        return (maxPosition - firstPosition) / Config.MIN_DISTANCE_BETWEEN_ADS + 1;
+        return positionsForInsert;
     }
 }
