@@ -94,7 +94,7 @@ public class AdsProvider {
 
         int position;
         if (lastAdPosition == Constant.POSITION_NOT_EXIST) {
-            position = Math.max(Config.MIN_AD_POSITION, lastAdPosition + 1);
+            position = Math.max(Config.MIN_AD_POSITION, lastVisibleItemPosition + 1);
         } else {
             position = Math.max(lastAdPosition + Config.MIN_DISTANCE_BETWEEN_ADS, lastVisibleItemPosition + 1);
         }
