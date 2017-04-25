@@ -1,13 +1,16 @@
 package com.alexxpasta.nativeadsinrecyclerview;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.ads.AdChoicesView;
 import com.facebook.ads.MediaView;
 import com.facebook.ads.NativeAd;
 
@@ -60,6 +63,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private MediaView adMedia;
         private TextView adSocialContext;
         private Button adCallToAction;
+        private LinearLayout adChoicesContainer;
 
         public FanAdHolder(View view) {
             super(view);
@@ -68,7 +72,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             adTitle = (TextView) view.findViewById(R.id.native_ad_title);
             adMedia = (MediaView) view.findViewById(R.id.native_ad_media);
             adSocialContext = (TextView) view.findViewById(R.id.native_ad_social_context);
-            adCallToAction = (Button)view.findViewById(R.id.native_ad_cta);
+            adCallToAction = (Button) view.findViewById(R.id.native_ad_cta);
+            adChoicesContainer = (LinearLayout) view.findViewById(R.id.native_ad_choices_container);
         }
 
         public void bindView(com.facebook.ads.NativeAd ad) {
@@ -78,6 +83,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             adCallToAction.setText(ad.getAdCallToAction());
             NativeAd.Image icon = ad.getAdIcon();
             NativeAd.downloadAndDisplayImage(icon, adIcon);
+
+            AdChoicesView adChoicesView = new AdChoicesView(adContainer.getContext(), ad, true);
+            adChoicesContainer.removeAllViews();
+            adChoicesContainer.addView(adChoicesView);
 
             List<View> clickableViews = new ArrayList<>();
             clickableViews.add(adMedia);

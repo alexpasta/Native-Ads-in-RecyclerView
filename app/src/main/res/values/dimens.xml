@@ -9,5 +9,6 @@
     <!-- Home Page List Item -->
     <dimen name="list_item_icon_size">40dp</dimen>
     <dimen name="list_item_title_text_size">18sp</dimen>
+    <dimen name="list_item_sub_title_text_size">14sp</dimen>
     <dimen name="list_item_main_image_height">220dp</dimen>
 </resources>

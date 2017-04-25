@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="color_primary_btn_txt">#FFFFFF</color>
+    <color name="color_list_item_sub_title">#AAAAAA</color>
 </resources>
