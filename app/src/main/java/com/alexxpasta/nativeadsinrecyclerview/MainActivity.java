@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerViewAdapter adapter;
 
     private AdsProvider adsProvider;
-    private int lastAdPosition = -1; // -1 means we have never inserted ads
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
