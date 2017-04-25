@@ -26,14 +26,25 @@
                 android:layout_height="@dimen/list_item_icon_size"
                 android:src="@mipmap/ic_launcher" />
 
-            <TextView
-                android:id="@+id/post_name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/component_gap"
-                android:textSize="@dimen/list_item_title_text_size"
-                tool:text="Name" />
+                android:layout_marginStart="@dimen/component_gap">
+                <TextView
+                    android:id="@+id/post_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/list_item_title_text_size"
+                    tool:text="Name" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10 mins"
+                    android:textSize="@dimen/list_item_sub_title_text_size"
+                    android:textColor="@color/color_list_item_sub_title"/>
+            </LinearLayout>
         </LinearLayout>
 
         <TextView
